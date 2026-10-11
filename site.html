@@ -1,0 +1,872 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Windows 10 Virtual - Script Roblox</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0078d4 0%, #00bcf2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+        }
+
+        header h1 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .info-box {
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .info-box h2 {
+            color: #0078d4;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+
+        .info-box ul {
+            list-style-position: inside;
+            color: #333;
+            line-height: 1.8;
+        }
+
+        .code-container {
+            background: #1e1e1e;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .code-header {
+            background: #2d2d2d;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .code-header h3 {
+            color: #00bcf2;
+            font-size: 1rem;
+        }
+
+        .copy-btn {
+            background: #0078d4;
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+        }
+
+        .copy-btn:hover {
+            background: #005a9e;
+        }
+
+        .copy-btn.copied {
+            background: #107c10;
+        }
+
+        pre {
+            padding: 20px;
+            overflow-x: auto;
+            color: #d4d4d4;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            max-height: 500px;
+            overflow-y: auto;
+        }
+
+        code {
+            font-family: 'Consolas', 'Monaco', monospace;
+        }
+
+        footer {
+            text-align: center;
+            color: white;
+            margin-top: 30px;
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🪟 Windows 10 Virtual — Roblox</h1>
+            <p>Script para criar um sistema operacional virtual dentro do Roblox</p>
+        </header>
+
+        <div class="info-box">
+            <h2>📋 Como usar:</h2>
+            <ul>
+                <li>Clique no botão abaixo para copiar o script</li>
+                <li>Abra o Roblox Studio e entre no seu jogo</li>
+                <li>Vá em: <strong>StarterPlayer ➔ StarterPlayerScripts</strong></li>
+                <li>Crie um novo <strong>LocalScript</strong> e cole o código</li>
+                <li>No Workspace, crie uma Part chamada <strong>"Tela"</strong> (proporção 16:9)</li>
+                <li>Divirta-se! 😄</li>
+            </ul>
+        </div>
+
+        <div class="code-container">
+            <div class="code-header">
+                <h3>📜 Código Lua / Roblox</h3>
+                <button class="copy-btn" id="copyBtn">📋 Copiar Script</button>
+            </div>
+<pre id="scriptCode">--[[
+WINDOWS 10 VIRTUAL  -  LocalScript
+ONDE COLOCAR: StarterPlayer > StarterPlayerScripts (LocalScript)
+REQUISITO:   uma Part chamada "Tela" dentro do Workspace (ideal: proporção 16:9)
+
+O que tem:
+- Área de trabalho, barra de tarefas, menu Iniciar, pesquisa, relógio, janelas
+- Este Computador (32 GB RAM, RTX 5090) com desempenho ao vivo
+- Roblox: seu rosto, seu avatar, seus amigos (Entrar no jogo do amigo) e teleporte para jogos famosos
+- Loja de Jogos (teleporte), Calculadora, Bloco de Notas, Snake e Jogo da Velha (funcionam de verdade)
+- Configurações (muda o plano de fundo)
+- Chrome, YouTube, Discord, Spotify, TikTok e Minecraft (versões simuladas)
+
+Dica: clique 2 vezes nos ícones da área de trabalho, igual no Windows.
+]]
+
+local Players = game:GetService("Players")
+local TeleportService = game:GetService("TeleportService")
+local RunService = game:GetService("RunService")
+local UserInputService = game:GetService("UserInputService")
+
+local player = Players.LocalPlayer
+local playerGui = player:WaitForChild("PlayerGui")
+
+--========================== CONFIGURAÇÃO ==========================--
+local CFG = {
+NomeDaParte = "Tela",
+Face = Enum.NormalId.Front, -- se a tela aparecer do lado errado, troque (Back, Left, Right, Top, Bottom)
+Canvas = Vector2.new(1280, 720),
+FusoHorario = -3, -- Brasil (Brasília)
+PC = {
+Windows = "Windows 10 Pro",
+CPU = "AMD Ryzen 9 9950X3D  4,30 GHz",
+RAM = "32,0 GB (DDR5 6000 MHz)",
+GPU = "NVIDIA GeForce RTX 5090 (32 GB GDDR7)",
+Disco = "SSD NVMe 2 TB",
+},
+}
+
+-- Jogos famosos (se algum ID mudar, é só editar aqui)
+local GAMES = {
+{ nome = "Adopt Me!", id = 920587237, emoji = "🐶", cor = Color3.fromRGB(255, 140, 180) },
+{ nome = "Brookhaven RP", id = 4924922222, emoji = "🏠", cor = Color3.fromRGB(70, 160, 90) },
+{ nome = "Blox Fruits", id = 2753915549, emoji = "🍎", cor = Color3.fromRGB(220, 60, 60) },
+{ nome = "Pet Simulator 99", id = 8737899170, emoji = "🐾", cor = Color3.fromRGB(120, 90, 220) },
+{ nome = "Murder Mystery 2", id = 142823291, emoji = "🔪", cor = Color3.fromRGB(130, 30, 30) },
+{ nome = "Tower of Hell", id = 1962086868, emoji = "🗼", cor = Color3.fromRGB(240, 150, 40) },
+{ nome = "Jailbreak", id = 606849621, emoji = "🚓", cor = Color3.fromRGB(40, 90, 200) },
+{ nome = "Arsenal", id = 286090429, emoji = "🔫", cor = Color3.fromRGB(200, 60, 40) },
+{ nome = "Royale High", id = 735030788, emoji = "👑", cor = Color3.fromRGB(200, 90, 220) },
+{ nome = "DOORS", id = 6516141723, emoji = "🚪", cor = Color3.fromRGB(60, 50, 40) },
+{ nome = "Natural Disaster Survival", id = 189707, emoji = "🌪️", cor = Color3.fromRGB(90, 130, 160) },
+{ nome = "MeepCity", id = 370731277, emoji = "🙂", cor = Color3.fromRGB(60, 180, 220) },
+{ nome = "Piggy", id = 4623386862, emoji = "🐷", cor = Color3.fromRGB(230, 110, 150) },
+{ nome = "Bee Swarm Simulator", id = 1537690962, emoji = "🐝", cor = Color3.fromRGB(235, 190, 30) },
+{ nome = "Phantom Forces", id = 292439477, emoji = "🎯", cor = Color3.fromRGB(70, 80, 70) },
+}
+
+local WALLS = {
+{ "Windows 10", Color3.fromRGB(0, 60, 140), Color3.fromRGB(0, 150, 230) },
+{ "Noite", Color3.fromRGB(10, 10, 40), Color3.fromRGB(60, 30, 110) },
+{ "Floresta", Color3.fromRGB(10, 60, 40), Color3.fromRGB(70, 150, 90) },
+{ "Pôr do sol", Color3.fromRGB(120, 30, 60), Color3.fromRGB(250, 150, 60) },
+{ "Oceano", Color3.fromRGB(0, 50, 90), Color3.fromRGB(0, 190, 190) },
+{ "Grafite", Color3.fromRGB(20, 20, 24), Color3.fromRGB(70, 70, 80) },
+}
+
+--========================== AJUDANTES ==========================--
+local WHITE = Color3.new(1, 1, 1)
+local BLACK = Color3.new(0, 0, 0)
+local ACCENT = Color3.fromRGB(0, 120, 215)
+local PANEL = Color3.fromRGB(35, 37, 39)
+local TASKBAR_H = 40
+local CANVAS = CFG.Canvas
+
+local function make(class, props, parent)
+    local o = Instance.new(class)
+    for k, v in pairs(props or {}) do
+        o[k] = v
+    end
+    if parent then
+        o.Parent = parent
+    end
+    return o
+end
+
+local function round(o, r)
+    make("UICorner", { CornerRadius = UDim.new(0, r or 4) }, o)
+end
+
+local function txt(parent, props)
+    local p = {
+    BackgroundTransparency = 1,
+    Font = Enum.Font.SourceSans,
+    TextColor3 = WHITE,
+    TextSize = 18,
+    Text = "",
+    TextXAlignment = Enum.TextXAlignment.Left,
+    BorderSizePixel = 0,
+    }
+    for k, v in pairs(props) do
+        p[k] = v
+    end
+    return make("TextLabel", p, parent)
+end
+
+local function btn(parent, props)
+    local p = {
+    BackgroundColor3 = Color3.fromRGB(60, 60, 64),
+    BorderSizePixel = 0,
+    AutoButtonColor = true,
+    Font = Enum.Font.SourceSans,
+    TextColor3 = WHITE,
+    TextSize = 18,
+    Text = "",
+    }
+    for k, v in pairs(props) do
+        p[k] = v
+    end
+    return make("TextButton", p, parent)
+end
+
+local thumbCache = {}
+local function thumb(userId, ttype, size)
+    local key = userId .. "|" .. tostring(ttype) .. "|" .. tostring(size)
+    if thumbCache[key] then
+        return thumbCache[key]
+    end
+    local ok, img = pcall(function()
+        return (Players:GetUserThumbnailAsync(userId, ttype, size))
+    end)
+    if ok and img then
+        thumbCache[key] = img
+        return img
+    end
+    return ""
+end
+
+local function makeLogo(parent, size, pos)
+    local holder = make("Frame", { Size = UDim2.fromOffset(size, size), Position = pos, BackgroundTransparency = 1 }, parent)
+    local h = math.floor(size / 2) - 1
+    for i = 0, 3 do
+        make("Frame", {
+        Size = UDim2.fromOffset(h, h),
+        Position = UDim2.fromOffset((i % 2) * (h + 2), math.floor(i / 2) * (h + 2)),
+        BackgroundColor3 = Color3.fromRGB(0, 164, 239),
+        BorderSizePixel = 0,
+        }, holder)
+    end
+    return holder
+end
+
+local function makeIcon(parent, app, size, pos)
+    local f = make("Frame", { Size = UDim2.fromOffset(size, size), Position = pos or UDim2.new(), BackgroundColor3 = app.cor, BorderSizePixel = 0 }, parent)
+    round(f, math.floor(size / 8))
+    txt(f, {
+    Size = UDim2.fromScale(1, 1),
+    Text = app.icone,
+    TextSize = math.floor(size * 0.6),
+    TextXAlignment = Enum.TextXAlignment.Center,
+    Font = app.fonteIcone or Enum.Font.SourceSans,
+    })
+    return f
+end
+
+--========================== TELA (SurfaceGui) ==========================--
+local tela = workspace:WaitForChild(CFG.NomeDaParte, 30)
+if not tela then
+    warn("[Windows 10] Não encontrei a parte '" .. CFG.NomeDaParte .. "' dentro do Workspace.")
+    return
+end
+
+local old = playerGui:FindFirstChild("Windows10Tela")
+if old then
+    old:Destroy()
+end
+
+local gui = make("SurfaceGui", {
+Name = "Windows10Tela",
+Adornee = tela,
+Face = CFG.Face,
+SizingMode = Enum.SurfaceGuiSizingMode.FixedSize,
+CanvasSize = CANVAS,
+ResetOnSpawn = false,
+ZIndexBehavior = Enum.ZIndexBehavior.Sibling,
+LightInfluence = 0,
+Brightness = 1,
+}, playerGui)
+
+local root = make("Frame", { Name = "Root", Size = UDim2.fromScale(1, 1), BackgroundColor3 = BLACK, BorderSizePixel = 0 }, gui)
+
+-- Plano de fundo
+local wall = make("Frame", { Name = "PlanoDeFundo", Size = UDim2.fromScale(1, 1), BackgroundColor3 = WHITE, BorderSizePixel = 0, ZIndex = 1 }, root)
+local wallGrad = make("UIGradient", { Rotation = 45 }, wall)
+local function setWallpaper(i)
+    local w = WALLS[i]
+    if w then
+        wallGrad.Color = ColorSequence.new(w[2], w[3])
+    end
+end
+setWallpaper(1)
+
+-- Estado
+local windows = {}
+local activeId = nil
+local zTop = 10
+local winCount = 0
+local selectedIcon = nil
+local openApp -- definido mais abaixo
+
+local startMenu -- definido mais abaixo
+local function closeStart()
+    if startMenu then
+        startMenu.Visible = false
+    end
+end
+
+local function deselectIcon()
+    if selectedIcon then
+        selectedIcon.BackgroundTransparency = 1
+        selectedIcon = nil
+    end
+end
+
+local bgClick = btn(wall, { Size = UDim2.fromScale(1, 1), BackgroundTransparency = 1, AutoButtonColor = false, ZIndex = 1 })
+bgClick.MouseButton1Click:Connect(function()
+    closeStart()
+    deselectIcon()
+end)
+
+local iconsFrame = make("Frame", { Name = "Icones", Size = UDim2.new(1, -20, 1, -TASKBAR_H - 20), Position = UDim2.fromOffset(10, 10), BackgroundTransparency = 1, ZIndex = 2 }, root)
+make("UIGridLayout", {
+CellSize = UDim2.fromOffset(92, 98),
+CellPadding = UDim2.fromOffset(6, 6),
+FillDirection = Enum.FillDirection.Vertical,
+SortOrder = Enum.SortOrder.LayoutOrder,
+}, iconsFrame)
+
+local windowsLayer = make("Frame", { Name = "Janelas", Size = UDim2.new(1, 0, 1, -TASKBAR_H), BackgroundTransparency = 1, ZIndex = 5 }, root)
+
+--========================== BARRA DE TAREFAS ==========================--
+local taskbar = make("Frame", {
+Name = "BarraDeTarefas",
+Size = UDim2.new(1, 0, 0, TASKBAR_H),
+Position = UDim2.new(0, 0, 1, -TASKBAR_H),
+BackgroundColor3 = Color3.fromRGB(24, 24, 28),
+BorderSizePixel = 0,
+ZIndex = 900,
+Active = true,
+}, root)
+
+local startBtn = btn(taskbar, { Size = UDim2.fromOffset(48, TASKBAR_H), BackgroundColor3 = Color3.fromRGB(24, 24, 28) })
+makeLogo(startBtn, 20, UDim2.fromOffset(14, 10))
+
+local search = make("TextBox", {
+Size = UDim2.fromOffset(250, 30),
+Position = UDim2.fromOffset(54, 5),
+BackgroundColor3 = Color3.fromRGB(240, 240, 240),
+BorderSizePixel = 0,
+PlaceholderText = "Digite aqui para pesquisar",
+PlaceholderColor3 = Color3.fromRGB(110, 110, 110),
+Text = "",
+TextColor3 = BLACK,
+Font = Enum.Font.SourceSans,
+TextSize = 17,
+ClearTextOnFocus = true,
+TextXAlignment = Enum.TextXAlignment.Left,
+}, taskbar)
+make("UIPadding", { PaddingLeft = UDim.new(0, 10) }, search)
+
+local taskList = make("Frame", {
+Size = UDim2.new(1, -54 - 250 - 6 - 180, 1, 0),
+Position = UDim2.fromOffset(54 + 250 + 6, 0),
+BackgroundTransparency = 1,
+}, taskbar)
+make("UIListLayout", { FillDirection = Enum.FillDirection.Horizontal, Padding = UDim.new(0, 2), SortOrder = Enum.SortOrder.LayoutOrder }, taskList)
+
+local tray = make("Frame", { Size = UDim2.fromOffset(180, TASKBAR_H), Position = UDim2.new(1, -180, 0, 0), BackgroundTransparency = 1 }, taskbar)
+txt(tray, { Size = UDim2.fromOffset(70, TASKBAR_H), Text = "🔊  📶", TextSize = 16, TextXAlignment = Enum.TextXAlignment.Center })
+local clockLbl = txt(tray, {
+Size = UDim2.fromOffset(100, TASKBAR_H),
+Position = UDim2.fromOffset(75, 0),
+Text = "",
+TextSize = 15,
+TextXAlignment = Enum.TextXAlignment.Center,
+TextWrapped = true,
+})
+
+task.spawn(function()
+    while gui.Parent do
+        local t = os.time() + CFG.FusoHorario * 3600
+        clockLbl.Text = os.date("!%H:%M", t) .. "\n" .. os.date("!%d/%m/%Y", t)
+        task.wait(1)
+    end
+end)
+
+--========================== MENU INICIAR ==========================--
+startMenu = make("Frame", {
+Name = "MenuIniciar",
+Size = UDim2.fromOffset(380, 520),
+Position = UDim2.new(0, 0, 1, -TASKBAR_H - 520),
+BackgroundColor3 = Color3.fromRGB(31, 31, 36),
+BorderSizePixel = 0,
+Visible = false,
+ZIndex = 950,
+Active = true,
+}, root)
+
+txt(startMenu, { Size = UDim2.new(1, -20, 0, 36), Position = UDim2.fromOffset(16, 6), Text = "Todos os aplicativos", TextSize = 20, Font = Enum.Font.SourceSansSemibold })
+local startList = make("ScrollingFrame", {
+Size = UDim2.new(1, -10, 1, -86),
+Position = UDim2.fromOffset(5, 44),
+BackgroundTransparency = 1,
+BorderSizePixel = 0,
+ScrollBarThickness = 5,
+CanvasSize = UDim2.new(),
+AutomaticCanvasSize = Enum.AutomaticSize.Y,
+}, startMenu)
+make("UIListLayout", { Padding = UDim.new(0, 2), SortOrder = Enum.SortOrder.LayoutOrder }, startList)
+
+local userBar = make("Frame", { Size = UDim2.new(1, 0, 0, 40), Position = UDim2.new(0, 0, 1, -40), BackgroundColor3 = Color3.fromRGB(24, 24, 28), BorderSizePixel = 0 }, startMenu)
+txt(userBar, { Size = UDim2.new(1, -20, 1, 0), Position = UDim2.fromOffset(14, 0), Text = "👤  " .. player.DisplayName, TextSize = 18 })
+
+startBtn.MouseButton1Click:Connect(function()
+    startMenu.Visible = not startMenu.Visible
+end)
+
+--========================== TELEPORTE (confirmação) ==========================--
+local overlay = make("Frame", {
+Size = UDim2.fromScale(1, 1),
+BackgroundColor3 = BLACK,
+BackgroundTransparency = 0.45,
+BorderSizePixel = 0,
+Visible = false,
+ZIndex = 2000,
+Active = true,
+}, root)
+local tpBox = make("Frame", {
+Size = UDim2.fromOffset(440, 200),
+Position = UDim2.new(0.5, -220, 0.5, -100),
+BackgroundColor3 = PANEL,
+BorderSizePixel = 0,
+}, overlay)
+round(tpBox, 10)
+local tpTitle = txt(tpBox, { Size = UDim2.new(1, -30, 0, 60), Position = UDim2.fromOffset(15, 14), Text = "", TextSize = 22, TextWrapped = true, Font = Enum.Font.SourceSansSemibold })
+local tpStatus = txt(tpBox, { Size = UDim2.new(1, -30, 0, 50), Position = UDim2.fromOffset(15, 76), Text = "", TextSize = 16, TextWrapped = true, TextColor3 = Color3.fromRGB(200, 200, 200) })
+local tpYes = btn(tpBox, { Size = UDim2.fromOffset(190, 40), Position = UDim2.new(0, 15, 1, -55), BackgroundColor3 = Color3.fromRGB(0, 176, 111), Text = "Entrar", TextSize = 20 })
+local tpNo = btn(tpBox, { Size = UDim2.fromOffset(190, 40), Position = UDim2.new(1, -205, 1, -55), BackgroundColor3 = Color3.fromRGB(80, 80, 86), Text = "Cancelar", TextSize = 20 })
+round(tpYes, 6)
+round(tpNo, 6)
+
+local pendingFn = nil
+local tpBusy = false
+local function askTeleport(titulo, fn)
+    pendingFn = fn
+    tpBusy = false
+    tpTitle.Text = titulo
+    tpStatus.Text = "Você vai sair deste jogo e entrar no outro."
+    overlay.Visible = true
+end
+tpNo.MouseButton1Click:Connect(function()
+    overlay.Visible = false
+    pendingFn = nil
+    tpBusy = false
+end)
+tpYes.MouseButton1Click:Connect(function()
+    if tpBusy or not pendingFn then
+        return
+    end
+    tpBusy = true
+    tpStatus.Text = "Teleportando..."
+    local ok, err = pcall(pendingFn)
+    if not ok then
+        tpStatus.Text = "Não foi possível teleportar agora. (No Studio o teleporte não funciona.)"
+        warn("[Windows 10] Teleporte falhou:", err)
+        tpBusy = false
+    end
+end)
+TeleportService.TeleportInitFailed:Connect(function(_, _, msg)
+    tpStatus.Text = "Falhou: " .. tostring(msg)
+    tpBusy = false
+end)
+
+--========================== APPS ==========================--
+local LIGHT_TXT = Color3.fromRGB(20, 20, 20)
+
+-- Grade de jogos (usada no Roblox e na Loja)
+local function gameCard(parent, g, order)
+    local card = make("Frame", { Size = UDim2.fromOffset(200, 170), BackgroundColor3 = PANEL, BorderSizePixel = 0, LayoutOrder = order or 0 }, parent)
+    round(card, 8)
+    local banner = make("Frame", { Size = UDim2.new(1, 0, 0, 90), BackgroundColor3 = g.cor, BorderSizePixel = 0 }, card)
+    round(banner, 8)
+    txt(banner, { Size = UDim2.fromScale(1, 1), Text = g.emoji, TextSize = 46, TextXAlignment = Enum.TextXAlignment.Center })
+    txt(card, {
+    Size = UDim2.new(1, -16, 0, 24),
+    Position = UDim2.fromOffset(8, 96),
+    Text = g.nome,
+    TextSize = 17,
+    Font = Enum.Font.SourceSansSemibold,
+    TextTruncate = Enum.TextTruncate.AtEnd,
+    })
+    local play = btn(card, {
+    Size = UDim2.new(1, -16, 0, 30),
+    Position = UDim2.new(0, 8, 1, -38),
+    BackgroundColor3 = Color3.fromRGB(0, 176, 111),
+    Text = "▶  Jogar",
+    TextSize = 18,
+    })
+    round(play, 6)
+    play.MouseButton1Click:Connect(function()
+        askTeleport("Entrar em " .. g.nome .. "?", function()
+            TeleportService:Teleport(g.id, player)
+        end)
+    end)
+    return card
+end
+
+local function gamesGrid(parent)
+    local sf = make("ScrollingFrame", {
+    Size = UDim2.fromScale(1, 1),
+    BackgroundTransparency = 1,
+    BorderSizePixel = 0,
+    ScrollBarThickness = 6,
+    CanvasSize = UDim2.new(),
+    AutomaticCanvasSize = Enum.AutomaticSize.Y,
+    }, parent)
+    make("UIPadding", { PaddingLeft = UDim.new(0, 20), PaddingTop = UDim.new(0, 16), PaddingBottom = UDim.new(0, 16) }, sf)
+    make("UIGridLayout", { CellSize = UDim2.fromOffset(200, 170), CellPadding = UDim2.fromOffset(14, 14), SortOrder = Enum.SortOrder.LayoutOrder }, sf)
+    for i, g in ipairs(GAMES) do
+        gameCard(sf, g, i)
+    end
+    return sf
+end
+
+-- Amigos (carrega do Roblox de verdade)
+local function loadFriends(list, header)
+    task.spawn(function()
+        local friends = {}
+        local ok, pages = pcall(function()
+            return Players:GetFriendsAsync(player.UserId)
+        end)
+        if ok and pages then
+            while #friends < 80 do
+                local okp, cur = pcall(function()
+                    return pages:GetCurrentPage()
+                end)
+                if not okp then
+                    break
+                end
+                for _, f in ipairs(cur) do
+                    table.insert(friends, f)
+                end
+                if pages.IsFinished then
+                    break
+                end
+                local oka = pcall(function()
+                    pages:AdvanceToNextPageAsync()
+                end)
+                if not oka then
+                    break
+                end
+            end
+        end
+        if not list:IsDescendantOf(game) then
+            return
+        end
+        
+        local online = {}
+        pcall(function()
+            for _, f in ipairs(player:GetFriendsOnline(200)) do
+                online[f.VisitorId] = f
+            end
+        end)
+        
+        if #friends == 0 then
+            header.Text = "Nenhum amigo encontrado (ou não foi possível carregar)."
+            return
+        end
+        header.Text = "Amigos (" .. #friends .. ")"
+        
+        table.sort(friends, function(a, b)
+            local ao, bo = online[a.Id] ~= nil, online[b.Id] ~= nil
+            if ao ~= bo then
+                return ao
+            end
+            return (a.DisplayName or a.Username or ""):lower() < (b.DisplayName or b.Username or ""):lower()
+        end)
+        
+        for i, f in ipairs(friends) do
+            local info = online[f.Id]
+            local row = make("Frame", { Size = UDim2.new(1, -30, 0, 64), BackgroundColor3 = PANEL, BorderSizePixel = 0, LayoutOrder = i }, list)
+            round(row, 8)
+            local av = make("ImageLabel", { Size = UDim2.fromOffset(48, 48), Position = UDim2.fromOffset(8, 8), BackgroundColor3 = Color3.fromRGB(60, 60, 64), BorderSizePixel = 0, Image = "" }, row)
+            round(av, 24)
+            task.spawn(function()
+                local img = thumb(f.Id, Enum.ThumbnailType.HeadShot, Enum.ThumbnailSize.Size100x100)
+                if av.Parent then
+                    av.Image = img
+                end
+            end)
+            txt(row, { Size = UDim2.new(1, -250, 0, 26), Position = UDim2.fromOffset(66, 8), Text = f.DisplayName or f.Username, TextSize = 19, Font = Enum.Font.SourceSansSemibold, TextTruncate = Enum.TextTruncate.AtEnd })
+            local status = "Offline"
+            local color = Color3.fromRGB(150, 150, 150)
+            if info then
+                status = "● " .. tostring(info.LastLocation or "Online")
+                color = Color3.fromRGB(0, 200, 120)
+            end
+            txt(row, { Size = UDim2.new(1, -250, 0, 22), Position = UDim2.fromOffset(66, 34), Text = status, TextSize = 15, TextColor3 = color, TextTruncate = Enum.TextTruncate.AtEnd })
+            if info and info.PlaceId and info.GameId then
+                local join = btn(row, { Size = UDim2.fromOffset(110, 34), Position = UDim2.new(1, -120, 0.5, -17), BackgroundColor3 = Color3.fromRGB(0, 176, 111), Text = "Entrar", TextSize = 18 })
+                round(join, 6)
+                join.MouseButton1Click:Connect(function()
+                    askTeleport("Entrar no jogo de " .. (f.DisplayName or f.Username) .. "?", function()
+                        TeleportService:TeleportToPlaceInstance(info.PlaceId, info.GameId, player)
+                    end)
+                end)
+            end
+        end
+    end)
+end
+
+--------------------------- Roblox ---------------------------
+local function buildRoblox(c)
+    local BG = Color3.fromRGB(18, 18, 20)
+    local BAR = Color3.fromRGB(24, 25, 27)
+    c.BackgroundColor3 = BG
+    
+    local side = make("Frame", { Size = UDim2.new(0, 190, 1, 0), BackgroundColor3 = BAR, BorderSizePixel = 0 }, c)
+    txt(side, { Size = UDim2.new(1, -20, 0, 56), Position = UDim2.fromOffset(18, 4), Text = "ROBLOX", Font = Enum.Font.GothamBlack, TextSize = 26 })
+    
+    local main = make("Frame", { Size = UDim2.new(1, -190, 1, 0), Position = UDim2.fromOffset(190, 0), BackgroundTransparency = 1 }, c)
+    local top = make("Frame", { Size = UDim2.new(1, 0, 0, 64), BackgroundColor3 = BAR, BorderSizePixel = 0 }, main)
+    local topAv = make("ImageLabel", { Size = UDim2.fromOffset(44, 44), Position = UDim2.fromOffset(14, 10), BackgroundColor3 = Color3.fromRGB(60, 60, 64), BorderSizePixel = 0, Image = "" }, top)
+    round(topAv, 22)
+    txt(top, { Size = UDim2.new(1, -80, 0, 26), Position = UDim2.fromOffset(68, 8), Text = player.DisplayName, TextSize = 20, Font = Enum.Font.SourceSansSemibold })
+    txt(top, { Size = UDim2.new(1, -80, 0, 20), Position = UDim2.fromOffset(68, 34), Text = "@" .. player.Name, TextSize = 15, TextColor3 = Color3.fromRGB(160, 160, 160) })
+    
+    local page = make("Frame", { Size = UDim2.new(1, 0, 1, -64), Position = UDim2.fromOffset(0, 64), BackgroundTransparency = 1 }, main)
+    
+    task.spawn(function()
+        local img = thumb(player.UserId, Enum.ThumbnailType.HeadShot, Enum.ThumbnailSize.Size100x100)
+        if topAv.Parent then
+            topAv.Image = img
+        end
+    end)
+    
+    local pages = {}
+    
+    pages.Inicio = function(p)
+        local big = make("ImageLabel", { Size = UDim2.fromOffset(150, 150), Position = UDim2.fromOffset(28, 24), BackgroundColor3 = Color3.fromRGB(60, 60, 64), BorderSizePixel = 0, Image = "" }, p)
+        round(big, 75)
+        task.spawn(function()
+            local img = thumb(player.UserId, Enum.ThumbnailType.HeadShot, Enum.ThumbnailSize.Size420x420)
+            if big.Parent then
+                big.Image = img
+            end
+        end)
+        txt(p, { Size = UDim2.new(1, -220, 0, 44), Position = UDim2.fromOffset(200, 50), Text = "Olá, " .. player.DisplayName .. "!", TextSize = 34, Font = Enum.Font.GothamBold })
+        txt(p, { Size = UDim2.new(1, -220, 0, 26), Position = UDim2.fromOffset(200, 98), Text = "@" .. player.Name .. "   •   ID " .. player.UserId, TextSize = 17, TextColor3 = Color3.fromRGB(160, 160, 160) })
+        txt(p, { Size = UDim2.new(1, -40, 0, 30), Position = UDim2.fromOffset(28, 196), Text = "Jogos populares", TextSize = 22, Font = Enum.Font.SourceSansSemibold })
+        local row = make("Frame", { Size = UDim2.new(1, -40, 0, 170), Position = UDim2.fromOffset(28, 232), BackgroundTransparency = 1 }, p)
+        make("UIListLayout", { FillDirection = Enum.FillDirection.Horizontal, Padding = UDim.new(0, 14), SortOrder = Enum.SortOrder.LayoutOrder }, row)
+        for i = 1, 3 do
+            gameCard(row, GAMES[i], i)
+        end
+    end
+    
+    pages.Amigos = function(p)
+        local header = txt(p, { Size = UDim2.new(1, -40, 0, 36), Position = UDim2.fromOffset(28, 10), Text = "Carregando amigos...", TextSize = 22, Font = Enum.Font.SourceSansSemibold })
+        local sf = make("ScrollingFrame", {
+        Size = UDim2.new(1, 0, 1, -54),
+        Position = UDim2.fromOffset(0, 54),
+        BackgroundTransparency = 1,
+        BorderSizePixel = 0,
+        ScrollBarThickness = 6,
+        CanvasSize = UDim2.new(),
+        AutomaticCanvasSize = Enum.AutomaticSize.Y,
+        }, p)
+        make("UIPadding", { PaddingLeft = UDim.new(0, 28), PaddingBottom = UDim.new(0, 12) }, sf)
+        make("UIListLayout", { Padding = UDim.new(0, 8), SortOrder = Enum.SortOrder.LayoutOrder }, sf)
+        loadFriends(sf, header)
+    end
+    
+    pages.Jogos = function(p)
+        gamesGrid(p)
+    end
+    
+    pages.Avatar = function(p)
+        local big = make("ImageLabel", { Size = UDim2.fromOffset(320, 320), Position = UDim2.fromOffset(40, 24), BackgroundColor3 = PANEL, BorderSizePixel = 0, Image = "" }, p)
+        round(big, 12)
+        task.spawn(function()
+            local img = thumb(player.UserId, Enum.ThumbnailType.AvatarBust, Enum.ThumbnailSize.Size352x352)
+            if big.Parent then
+                big.Image = img
+            end
+        end)
+        txt(p, { Size = UDim2.new(1, -420, 0, 40), Position = UDim2.fromOffset(390, 40), Text = player.DisplayName, TextSize = 32, Font = Enum.Font.GothamBold })
+        txt(p, { Size = UDim2.new(1, -420, 0, 24), Position = UDim2.fromOffset(390, 84), Text = "@" .. player.Name, TextSize = 18, TextColor3 = Color3.fromRGB(160, 160, 160) })
+    end
+    
+    local navButtons = {}
+    local function showPage(name)
+        page:ClearAllChildren()
+        for n, b in pairs(navButtons) do
+            b.BackgroundColor3 = (n == name) and Color3.fromRGB(51, 95, 255) or BAR
+        end
+        pages[name](page)
+    end
+    
+    local items = { { "Inicio", "🏠  Início" }, { "Amigos", "👥  Amigos" }, { "Jogos", "🎮  Jogos" }, { "Avatar", "🧍  Avatar" } }
+    for i, it in ipairs(items) do
+        local b = btn(side, {
+        Size = UDim2.new(1, -20, 0, 42),
+        Position = UDim2.fromOffset(10, 64 + (i - 1) * 46),
+        BackgroundColor3 = BAR,
+        Text = "  " .. it[2],
+        TextSize = 19,
+        TextXAlignment = Enum.TextXAlignment.Left,
+        })
+        round(b, 8)
+        navButtons[it[1]] = b
+        b.MouseButton1Click:Connect(function()
+            showPage(it[1])
+        end)
+    end
+    showPage("Inicio")
+end
+
+--------------------------- Loja de Jogos ---------------------------
+local function buildLoja(c)
+    c.BackgroundColor3 = Color3.fromRGB(18, 18, 20)
+    txt(c, { Size = UDim2.new(1, -40, 0, 40), Position = UDim2.fromOffset(20, 8), Text = "Jogos populares do Roblox", TextSize = 24, Font = Enum.Font.SourceSansSemibold })
+    local holder = make("Frame", { Size = UDim2.new(1, 0, 1, -52), Position = UDim2.fromOffset(0, 52), BackgroundTransparency = 1 }, c)
+    gamesGrid(holder)
+end
+
+--------------------------- Este Computador ---------------------------
+local function buildPC(c)
+    c.BackgroundColor3 = WHITE
+    txt(c, { Size = UDim2.new(1, -40, 0, 40), Position = UDim2.fromOffset(20, 10), Text = "Sobre o seu PC", TextSize = 30, TextColor3 = LIGHT_TXT, Font = Enum.Font.SourceSansLight })
+    local rows = {
+    { "Nome do dispositivo", player.Name .. "-PC" },
+    { "Processador", CFG.PC.CPU },
+    { "RAM instalada", CFG.PC.RAM },
+    { "Placa de vídeo", CFG.PC.GPU },
+    { "Armazenamento", CFG.PC.Disco },
+    { "Edição", CFG.PC.Windows },
+    { "Tipo de sistema", "Sistema operacional de 64 bits" },
+    }
+    for i, r in ipairs(rows) do
+        local y = 58 + (i - 1) * 32
+        txt(c, { Size = UDim2.fromOffset(200, 30), Position = UDim2.fromOffset(20, y), Text = r[1], TextColor3 = Color3.fromRGB(100, 100, 100) })
+        txt(c, { Size = UDim2.new(1, -250, 0, 30), Position = UDim2.fromOffset(230, y), Text = r[2], TextColor3 = LIGHT_TXT })
+    end
+    
+    local baseY = 58 + #rows * 32 + 16
+    local fpsLabel = txt(c, { Size = UDim2.new(1, -40, 0, 28), Position = UDim2.fromOffset(20, baseY), Text = "Desempenho  -  FPS: --", TextSize = 20, TextColor3 = LIGHT_TXT, Font = Enum.Font.SourceSansSemibold })
+    
+    local bars = {}
+    local defs = {
+    { "CPU", 0.10, 0.04, 0.22 },
+    { "GPU", 0.14, 0.05, 0.30 },
+    { "RAM", 0.32, 0.25, 0.40 },
+    }
+    for i, d in ipairs(defs) do
+        local y = baseY + 32 + (i - 1) * 30
+        txt(c, { Size = UDim2.fromOffset(60, 24), Position = UDim2.fromOffset(20, y), Text = d[1], TextColor3 = LIGHT_TXT })
+        local back = make("Frame", { Size = UDim2.new(1, -200, 0, 18), Position = UDim2.fromOffset(80, y + 3), BackgroundColor3 = Color3.fromRGB(225, 225, 225), BorderSizePixel = 0 }, c)
+        local fill = make("Frame", { Size = UDim2.fromScale(d[2], 1), BackgroundColor3 = ACCENT, BorderSizePixel = 0 }, back)
+        local pct = txt(c, { Size = UDim2.fromOffset(60, 24), Position = UDim2.new(1, -100, 0, y), Text = "", TextColor3 = LIGHT_TXT })
+        table.insert(bars, { fill = fill, pct = pct, v = d[2], min = d[3], max = d[4] })
+    end
+    txt(c, { Size = UDim2.new(1, -40, 0, 20), Position = UDim2.new(0, 20, 1, -26), Text = "Uso de CPU/GPU/RAM é simulado.", TextSize = 14, TextColor3 = Color3.fromRGB(130, 130, 130) })
+    
+    local fps, acc = 60, 0
+    local conn = RunService.RenderStepped:Connect(function(dt)
+        fps = fps * 0.9 + (1 / math.max(dt, 0.001)) * 0.1
+        acc += dt
+        if acc >= 0.5 then
+            acc = 0
+            fpsLabel.Text = "Desempenho  -  FPS: " .. math.floor(fps + 0.5)
+            for _, b in ipairs(bars) do
+                b.v = math.clamp(b.v + (math.random() - 0.5) * 0.1, b.min, b.max)
+                b.fill.Size = UDim2.fromScale(b.v, 1)
+                b.pct.Text = math.floor(b.v * 100) .. "%"
+            end
+        end
+    end)
+    return function()
+        conn:Disconnect()
+    end
+end
+
+--------------------------- Configurações ---------------------------
+local function buildSettings(c)
+    c.BackgroundColor3 = Color3.fromRGB(243, 243, 243)
+    txt(c, { Size = UDim2.new(1, -40, 0, 40), Position = UDim2.fromOffset(20, 10), Text = "Personalização  >  Plano de fundo", TextSize = 26, TextColor3 = LIGHT_TXT, Font = Enum.Font.SourceSansLight })
+    for i, w in ipairs(WALLS) do
+        local x = 20 + ((i - 1) % 4) * 164
+        local y = 70 + math.floor((i - 1) / 4) * 135
+        local tile = btn(c, { Size = UDim2.fromOffset(150, 90), Position = UDim2.fromOffset(x, y), BackgroundColor3 = WHITE, AutoButtonColor = false })
+        make("UIGradient", { Color = ColorSequence.new(w[2], w[3]), Rotation = 45 }, tile)
+        txt(c, { Size = UDim2.fromOffset(150, 24), Position = UDim2.fromOffset(x, y + 94), Text = w[1], TextColor3 = LIGHT_TXT, TextSize = 17 })
+        tile.MouseButton1Click:Connect(function()
+            setWallpaper(i)
+        end)
+    end
+end
+
+--------------------------- Bloco de Notas ---------------------------
+local function buildNotepad(c)
+    c.BackgroundColor3 = WHITE
+    make("TextBox", {
+    Size = UDim2.fromScale(1, 1),
+    BackgroundColor3 = WHITE,
+    BorderSizePixel = 0,
+    MultiLine = true,
+    ClearTextOnFocus = false,
+    TextWrapped = true,
+    TextXAlignment = Enum.TextXAlignment.Left,
+    TextYAlignment = Enum.TextYAlignment.Top,
+    Font = Enum.Font.Code,
+    TextSize = 18,
+    TextColor3 = LIGHT_TXT,
+    Placeholder
